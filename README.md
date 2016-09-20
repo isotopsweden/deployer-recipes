@@ -12,11 +12,11 @@ composer require --dev isotopsweden/deployer-recipes
 
 | Recipe     | Usage
 | ------     | -----
-| apache     | `require 'vendor/isotopsweden/recipes/recipes/apache.php';`
-| deploy     | `require 'vendor/isotopsweden/recipes/recipes/deploy.php';`
-| redis      | `require 'vendor/isotopsweden/recipes/recipes/redis.php';`
-| sentry     | `require 'vendor/isotopsweden/recipes/recipes/sentry.php';`
-| wp         | `require 'vendor/isotopsweden/recipes/recipes/wp.php';`
+| apache     | `require 'vendor/isotopsweden/deployer-recipes/recipes/apache.php';`
+| deploy     | `require 'vendor/isotopsweden/deployer-recipes/recipes/deploy.php';`
+| redis      | `require 'vendor/isotopsweden/deployer-recipes/recipes/redis.php';`
+| sentry     | `require 'vendor/isotopsweden/deployer-recipes/recipes/sentry.php';`
+| wp         | `require 'vendor/isotopsweden/deployer-recipes/recipes/wp.php';`
 
 ## License
 
