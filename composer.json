@@ -1,0 +1,21 @@
+
+{
+  "name": "isotopsweden/deployer-recipes",
+  "description": "3rd party deployer recipes",
+  "type": "library",
+  "keywords": [
+    "deployer",
+    "recipes"
+  ],
+  "homepage": "https://github.com/isotopsweden/deployer-recipes",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Fredrik Forsmo",
+      "email": "fredrik.forsmo@isotop.se",
+      "homepage": "https://frozzare.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
