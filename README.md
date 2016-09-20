@@ -5,7 +5,7 @@ This repository contains Isotops recipes to integrate with deployer.
 ## Installation
 
 ```
-composer require --dev isotopsweden/recipes
+composer require --dev isotopsweden/deployer-recipes
 ```
 
 ## Recipes
