@@ -12,7 +12,7 @@ composer require --dev isotopsweden/deployer-recipes
 
 Load all:
 
-```
+```php
 require 'vendor/isotopsweden/deployer-recipes/recipes.php';
 ```
 
