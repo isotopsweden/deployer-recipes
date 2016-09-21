@@ -1,6 +1,6 @@
 <?php
 
-$recipies = [
+$recipes = [
     'apache.php',
     'deploy.php',
     'redis.php',
