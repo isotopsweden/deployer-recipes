@@ -98,3 +98,4 @@ before('deploy:prepare', 'deploy:groupify_root');
 before('deploy:update_code', 'deploy:groupify_root');
 before('rollback', 'deploy:groupify_releases');
 after('deploy:update_code', 'deploy:groupify_releases');
+after('success', 'deploy:groupify_root');
