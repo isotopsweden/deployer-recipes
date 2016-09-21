@@ -10,6 +10,14 @@ composer require --dev isotopsweden/deployer-recipes
 
 ## Recipes
 
+Load all:
+
+```
+require 'vendor/isotopsweden/deployer-recipes/recipes.php';
+```
+
+Load separately:
+
 | Recipe     | Usage
 | ------     | -----
 | apache     | `require 'vendor/isotopsweden/deployer-recipes/recipes/apache.php';`
