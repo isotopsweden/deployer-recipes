@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * Environment variables.
+ */
+env('composer_options', 'install --no-dev --verbose --prefer-dist --optimize-autoloader --no-progress --no-interaction --no-scripts');
+
+/**
  * Common parameters.
  */
 set('user', 'deploy');
@@ -61,6 +66,21 @@ task('deploy:update_code', function () {
     run("rm -rf {{deploy_path}}/tar");
     run("rm $tarballPath");
 })->desc('Updating code');
+
+/**
+ * Installing vendors tasks.
+ */
+task('deploy:vendors', function () {
+    $composer = env('bin/composer');
+    $envVars = env('env_vars') ? 'export ' . env('env_vars') . ' &&' : '';
+    $githubToken = has('github_token') ? get('github_token') : '';
+
+    if (!empty($githubToken)) {
+        run("cd {{release_path}} && $envVars $composer config -g github-oauth.github.com $githubToken");
+    }
+
+    run("cd {{release_path}} && $envVars $composer {{composer_options}}");
+})->desc('Installing vendors');
 
 /**
  * Add before and after hooks.
