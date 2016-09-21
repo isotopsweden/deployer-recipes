@@ -1,5 +1,9 @@
 <?php
 
+// Require custom functions.
+require_once __DIR__ . '/functions.php';
+
+// Require recipes.
 $recipes = [
     'apache.php',
     'deploy.php',
