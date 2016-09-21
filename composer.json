@@ -1,7 +1,7 @@
 
 {
   "name": "isotopsweden/deployer-recipes",
-  "description": "3rd party deployer recipes",
+  "description": "This repository contains Isotops recipes to integrate with deployer",
   "type": "library",
   "keywords": [
     "deployer",
