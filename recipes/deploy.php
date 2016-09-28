@@ -8,7 +8,7 @@ env('composer_options', 'install --no-dev --verbose --prefer-dist --optimize-aut
 /**
  * Common parameters.
  */
-set('user', 'deploy');
+set('user', 'www-data');
 set('group', 'www-data');
 
 /**
