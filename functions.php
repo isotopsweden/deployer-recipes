@@ -8,6 +8,6 @@ if (!function_exists('stage')) {
      */
     function stage() {
         $argv = isset($_SERVER['argv']) ? $_SERVER['argv'] : [];
-        return count($argv) > 1 ? $argv[2] : 'default';
+        return count($argv) > 1 && isset($argv[2]) ? $argv[2] : 'default';
     }
 }
