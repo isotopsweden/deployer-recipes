@@ -9,7 +9,7 @@ task('sentry:notify_deployment', function () {
         $project = get('sentry_project');
         $key = get('sentry_api_key');
     } catch (\RuntimeException $exception) {
-        println('<info>Missing Sentry settings, will not notify about release</info>');
+        writeln('<info>Missing Sentry settings, will not notify about release</info>');
         return;
     }
 
