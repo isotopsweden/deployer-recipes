@@ -50,10 +50,13 @@ task('deploy:groupify_shared', function () {
 task('deploy:update_code', function () {
     $repository = trim(get('repository'));
     $branch = env('branch') ?: 'master';
-    $git = env('bin/git');
     $ci = getenv('CI_BUILD_REF') ?: '';
     $verbose = '';
-    $tarballPath = '/tmp/{{release_name}}.gz';
+
+    // Remove invalid characters in filename
+    $branch_filename = mb_ereg_replace("([^\w\s\d\-_])", '', $branch);
+    
+    $tarballPath = '/tmp/{{release_name}}-' . $branch_filename . '.gz';
 
     if (isVerbose()) {
         $verbose = '-v';
