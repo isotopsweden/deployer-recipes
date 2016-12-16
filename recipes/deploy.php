@@ -1,9 +1,12 @@
 <?php
+namespace Deployer;
+
+require_once 'recipe/common.php';
 
 /**
  * Environment variables.
  */
-env('composer_options', 'install --no-dev --verbose --prefer-dist --optimize-autoloader --no-progress --no-interaction --no-scripts');
+set('composer_options', '{{composer_action}} --no-dev --verbose --prefer-dist --optimize-autoloader --no-progress --no-interaction --no-scripts');
 
 /**
  * Common parameters.
@@ -11,51 +14,49 @@ env('composer_options', 'install --no-dev --verbose --prefer-dist --optimize-aut
 set('user', 'deploy');
 set('group', 'www-data');
 
+set('release_name', function () {
+    // Set the deployment timezone
+    if (!date_default_timezone_set(get('timezone', 'UTC'))) {
+        date_default_timezone_set('UTC');
+    }
+    return date('YmdHis');
+});
+
 /**
  * Set right user and group on root files.
  */
 task('deploy:groupify_root', function () {
-    $user = get('user');
-    $group = get('group');
-
     cd('/');
-    run("( test -d {{deploy_path}}/ && sudo chown -R $user:$group {{deploy_path}}/ ) || echo 'New deploy path, chown not needed'");
+    run('( test -d {{deploy_path}}/ && sudo chown -R {{user}}:{{group}} {{deploy_path}}/ ) || echo "New deploy path, chown not needed"');
 })->desc('Set right permissions on root directory');
 
 /**
  * Set right user and group on releases files.
  */
 task('deploy:groupify_releases', function () {
-    $user = get('user');
-    $group = get('group');
-
     cd('/');
-    run("( test -d {{deploy_path}}/releases/ && sudo chown -R $user:$group {{deploy_path}}/releases/ ) || echo 'Release directory missing, chown not needed'");
+    run('( test -d {{deploy_path}}/releases/ && sudo chown -R {{user}}:{{group}} {{deploy_path}}/releases/ ) || echo "Release directory missing, chown not needed"');
 })->desc('Set right permissions on releases directory');
 
 /**
  * Set right user and group on shared files.
  */
 task('deploy:groupify_shared', function () {
-    $user = get('user');
-    $group = get('group');
-
     cd('/');
-    run("(test -d {{deploy_path}}/shared/ && sudo chown -R $user:$group {{deploy_path}}/shared/ ) || echo 'Shared directory missing, chown not needed'");
+    run('(test -d {{deploy_path}}/shared/ && sudo chown -R {{user}}:{{group}} {{deploy_path}}/shared/ ) || echo "Shared directory missing, chown not needed"');
 })->desc('Set right permissions on shared files');
 
 /**
  * Update code.
  */
 task('deploy:update_code', function () {
-    $repository = trim(get('repository'));
-    $branch = env('branch') ?: 'master';
+    $branch = get('branch') ? get('branch') : 'master';
     $ci = getenv('CI_BUILD_REF') ?: '';
     $verbose = '';
 
     // Remove invalid characters in filename
     $branch_filename = mb_ereg_replace("([^\w\s\d\-_])", '', $branch);
-    
+
     $tarballPath = '/tmp/{{release_name}}-' . $branch_filename . '.gz';
 
     if (isVerbose()) {
@@ -66,7 +67,7 @@ task('deploy:update_code', function () {
     if (!empty($ci)) {
         runLocally("git archive --format=tar $verbose HEAD | bzip2 > $tarballPath");
     } else {
-        runLocally("git archive --remote=$repository --format=tar $verbose $branch | bzip2 > $tarballPath");
+        runLocally("git archive --remote={{repository}} --format=tar $verbose $branch | bzip2 > $tarballPath");
     }
 
     // Upload tarball.
@@ -86,8 +87,8 @@ task('deploy:update_code', function () {
  * Installing vendors tasks.
  */
 task('deploy:vendors', function () {
-    $composer = env('bin/composer');
-    $envVars = env('env_vars') ? 'export ' . env('env_vars') . ' &&' : '';
+    $composer = get('bin/composer');
+    $envVars = get('env_vars') ? 'export ' . get('env_vars') . ' &&' : '';
     $githubToken = has('github_token') ? get('github_token') : '';
 
     if (!empty($githubToken)) {

@@ -1,4 +1,5 @@
 <?php
+namespace Deployer;
 
 /**
  * Restart apache graceful.

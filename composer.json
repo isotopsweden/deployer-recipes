@@ -1,4 +1,3 @@
-
 {
   "name": "isotopsweden/deployer-recipes",
   "description": "This repository contains Isotops recipes to integrate with deployer",
@@ -17,5 +16,8 @@
     }
   ],
   "minimum-stability": "dev",
-  "prefer-stable": true
+  "prefer-stable": true,
+  "require": {
+    "deployer/deployer": "^4.0"
+  }
 }
