@@ -67,7 +67,14 @@ task('deploy:update_code', function () {
     if (!empty($ci)) {
         runLocally("git archive --format=tar $verbose HEAD | bzip2 > $tarballPath");
     } else {
-        runLocally("git archive --remote={{repository}} --format=tar $verbose $branch | bzip2 > $tarballPath");
+        runLocally("git fetch --all");
+        $local_commit = runLocally("git rev-parse $branch");
+        $remote_commit = runLocally("git rev-parse origin/$branch");
+        if ($local_commit !== $remote_commit) {
+            write("<fg=red>></fg=red> Branch $branch not in sync with origin/$branch");
+            exit(1);
+        }
+        runLocally("git archive --format=tar $verbose $branch | bzip2 > $tarballPath");
     }
 
     // Upload tarball.
