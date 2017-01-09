@@ -9,8 +9,16 @@ task('wp:flushall', function () {
 })->desc('Flushes all sites permalinks using wp-cli');
 
 /**
- * Flushes all sites permalinks.
+ * Upgrades all databases
  */
 task('wp:dbupgrade', function () {
     run('[ -f /usr/local/bin/wp ] && cd {{deploy_path}}/current && for i in $(/usr/local/bin/wp site list --fields=url --format=csv); do if [ \"$i\" != \"url\" ]; then /bin/echo -n \"$i: \" && /usr/local/bin/wp core update-db --url=$i; fi; done || echo "wp-cli is not installed"');
 })->desc('Upgrades all databases using wp-cli');
+
+/**
+ * Run data migrations
+ */
+task('wp:datamigrate', function () {
+    run('[ -f /usr/local/bin/wp ] && cd {{deploy_path}}/current && /usr/local/bin/wp data-migrate run || echo "wp-cli is not installed"');
+})->desc('Run data migrations');
+
