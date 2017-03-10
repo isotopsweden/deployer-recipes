@@ -28,6 +28,7 @@ set('release_name', function () {
 task('deploy:groupify_root', function () {
     cd('/');
     run('( test -d {{deploy_path}}/ && sudo chown -R {{user}}:{{group}} {{deploy_path}}/ ) || echo "New deploy path, chown not needed"');
+    run('( test -d {{deploy_path}}/ && sudo chmod -R g=u {{deploy_path}}/ ) || echo "New deploy path, chmod not needed"');
 })->desc('Set right permissions on root directory');
 
 /**
