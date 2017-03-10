@@ -11,7 +11,7 @@ set('composer_options', '{{composer_action}} --no-dev --verbose --prefer-dist --
 /**
  * Common parameters.
  */
-set('user', 'www-data');
+set('user', 'deploy');
 set('group', 'www-data');
 
 set('release_name', function () {
@@ -27,7 +27,7 @@ set('release_name', function () {
  */
 task('deploy:groupify_root', function () {
     cd('/');
-    run('( test -d {{deploy_path}}/ && sudo chown -R {{user}}:{{group}} {{deploy_path}}/ ) || echo "New deploy path, chown not needed"');
+    run('( test -d {{deploy_path}}/ && sudo chown -R www-data:www-data {{deploy_path}}/ ) || echo "New deploy path, chown not needed"');
 })->desc('Set right permissions on root directory');
 
 /**
@@ -35,7 +35,7 @@ task('deploy:groupify_root', function () {
  */
 task('deploy:groupify_releases', function () {
     cd('/');
-    run('( test -d {{deploy_path}}/releases/ && sudo chown -R {{user}}:{{group}} {{deploy_path}}/releases/ ) || echo "Release directory missing, chown not needed"');
+    run('( test -d {{deploy_path}}/releases/ && sudo chown -R www-data:www-data {{deploy_path}}/releases/ ) || echo "Release directory missing, chown not needed"');
 })->desc('Set right permissions on releases directory');
 
 /**
@@ -43,7 +43,7 @@ task('deploy:groupify_releases', function () {
  */
 task('deploy:groupify_shared', function () {
     cd('/');
-    run('(test -d {{deploy_path}}/shared/ && sudo chown -R {{user}}:{{group}} {{deploy_path}}/shared/ ) || echo "Shared directory missing, chown not needed"');
+    run('(test -d {{deploy_path}}/shared/ && sudo chown -R www-data:www-data {{deploy_path}}/shared/ ) || echo "Shared directory missing, chown not needed"');
 })->desc('Set right permissions on shared files');
 
 /**
