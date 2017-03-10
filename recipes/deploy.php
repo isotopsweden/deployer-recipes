@@ -11,7 +11,7 @@ set('composer_options', '{{composer_action}} --no-dev --verbose --prefer-dist --
 /**
  * Common parameters.
  */
-set('user', 'www-data');
+set('user', 'deploy');
 set('group', 'www-data');
 
 set('release_name', function () {
