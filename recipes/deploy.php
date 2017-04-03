@@ -87,7 +87,7 @@ task('deploy:update_code', function () {
     upload($tarballPath, $tarballPath);
 
     // Extract tarball.
-    run("mkdir -p {{deploy_path}}/tar/$branch");
+    run("sudo mkdir -p {{deploy_path}}/tar/$branch");
     run("tar -xf $tarballPath -C {{deploy_path}}/tar/$branch");
     run("find {{deploy_path}}/tar/$branch/ -mindepth 1 -maxdepth 1 -exec mv -t {{release_path}}/ -- {} +");
 
