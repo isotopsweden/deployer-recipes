@@ -52,7 +52,7 @@ task('deploy:groupify_shared', function () {
  */
 task('deploy:update_code', function () {
     $branch = get('branch') ? get('branch') : 'master';
-    $ci = getenv('CI_BUILD_REF') ?: '';
+    $ci = getenv('CI_COMMIT_SHA') ?: '';
     $verbose = '';
 
     // Remove invalid characters in filename
