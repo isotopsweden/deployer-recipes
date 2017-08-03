@@ -7,6 +7,7 @@ require_once __DIR__ . '/functions.php';
 $recipes = [
     'apache.php',
     'deploy.php',
+    'ghostinspector.php',
     'redis.php',
     'sentry.php',
     'wp.php',
