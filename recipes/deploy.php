@@ -95,7 +95,7 @@ task( 'deploy:update_code', function () {
     run( "find {{deploy_path}}/tar/$branch/ -mindepth 1 -maxdepth 1 -exec mv -t {{release_path}}/ -- {} +" );
 
     // Cleanup.
-    run( "rm -rf {{deploy_path}}/tar" );
+    run( "sudo rm -rf {{deploy_path}}/tar" );
     run( "rm $tarballPath" );
 } )->desc( 'Updating code' );
 
