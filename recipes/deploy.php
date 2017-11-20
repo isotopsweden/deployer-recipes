@@ -71,8 +71,8 @@ task( 'deploy:update_code', function () {
         runLocally( "git archive --format=tar $verbose HEAD | bzip2 > $tarballPath" );
     } else {
         runLocally( "git fetch --all" );
-        $local_commit  = runLocally( "git rev-parse $branch" )->toString();
-        $remote_commit = runLocally( "git rev-parse origin/$branch" )->toString();
+        $local_commit  = runLocally( "git rev-parse $branch" );
+        $remote_commit = runLocally( "git rev-parse origin/$branch" );
 
         if ( $local_commit !== $remote_commit ) {
             writeln( "<fg=red>></fg=red> Branch $branch not in sync with origin/$branch" );
@@ -104,7 +104,7 @@ task( 'deploy:update_code', function () {
  */
 task( 'deploy:vendors', function () {
     $composer    = get( 'bin/composer' );
-    $envVars     = get( 'env_vars' ) ? 'export ' . get( 'env_vars' ) . ' &&' : '';
+    $envVars     = get( 'env' ) ? 'export ' . get( 'env' ) . ' &&' : '';
     $githubToken = has( 'github_token' ) ? get( 'github_token' ) : '';
 
     if ( ! empty( $githubToken ) ) {
