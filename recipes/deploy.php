@@ -54,6 +54,7 @@ task( 'deploy:groupify_shared', function () {
  */
 task( 'deploy:update_code', function () {
     $branch  = get( 'branch' ) ? get( 'branch' ) : 'master';
+    $folder  = get( 'folder' ) ? get( 'folder' ) : '';
     $ci      = getenv( 'CI_COMMIT_SHA' ) ?: '';
     $verbose = '';
 
@@ -68,7 +69,11 @@ task( 'deploy:update_code', function () {
 
     // Extract from git to tarball.
     if ( ! empty( $ci ) ) {
-        runLocally( "git archive --format=tar $verbose HEAD | bzip2 > $tarballPath" );
+        if ( empty( $folder ) ) {
+            runLocally( "git archive --format=tar $verbose HEAD | bzip2 > $tarballPath" );
+        } else {
+            runLocally( "git archive --format=tar $verbose HEAD $folder | bzip2 > $tarballPath" );
+        }
     } else {
         runLocally( "git fetch --all" );
         $local_commit  = runLocally( "git rev-parse $branch" );
@@ -78,7 +83,12 @@ task( 'deploy:update_code', function () {
             writeln( "<fg=red>></fg=red> Branch $branch not in sync with origin/$branch" );
             exit( 1 );
         }
-        runLocally( "git archive --format=tar $verbose $branch | bzip2 > $tarballPath" );
+
+        if ( empty( $folder ) ) {
+            runLocally( "git archive --format=tar $verbose $branch | bzip2 > $tarballPath" );
+        } else {
+            runLocally( "git archive --format=tar $verbose $branch $folder | bzip2 > $tarballPath" );
+        }
     }
 
     if ( isVerbose() ) {
@@ -93,6 +103,13 @@ task( 'deploy:update_code', function () {
     run( "sudo chown -R {{user}}:{{group}} {{deploy_path}}/tar" );
     run( "tar -xf $tarballPath -C {{deploy_path}}/tar/$branch" );
     run( "find {{deploy_path}}/tar/$branch/ -mindepth 1 -maxdepth 1 -exec mv -t {{release_path}}/ -- {} +" );
+
+    // Delete folder in folder.
+    if ( ! empty( $folder ) ) {
+        run( "mv {{release_path}}/$folder {{release_path}}/.dep" );
+        run( "cp -r {{release_path}}/.dep/. {{release_path}}/" );
+        run( "rm -rf {{release_path}}/.dep" );
+    }
 
     // Cleanup.
     run( "sudo rm -rf {{deploy_path}}/tar" );
