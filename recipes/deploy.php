@@ -54,7 +54,7 @@ task( 'deploy:groupify_shared', function () {
  */
 task( 'deploy:update_code', function () {
     $branch  = get( 'branch' ) ? get( 'branch' ) : 'master';
-    $folder  = get( 'folder' ) ? get( 'folder' ) : '';
+    $folder  = ''; // get( 'folder' ) ? get( 'folder' ) : '';
     $ci      = getenv( 'CI_COMMIT_SHA' ) ?: '';
     $verbose = '';
 
